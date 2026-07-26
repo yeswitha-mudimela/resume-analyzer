@@ -15,14 +15,22 @@ def home():
 def analyze():
     file = request.files["resume"]
     jd_text = request.form.get("job_description", "")
+    role_keywords = {
+    "frontend developer": ["html", "css", "javascript", "react", "git", "responsive design"],
+    "data analyst": ["python", "sql", "excel", "tableau", "statistics", "pandas"],
+    "python developer": ["python", "flask", "django", "git", "sql", "api"],
+    "machine learning": ["python", "tensorflow", "numpy", "pandas", "scikit", "deep learning"],
+    "general": ["python", "sql", "communication", "git", "problem solving"]
+    }
+    role = request.form.get("role", "general")
 
     with pdfplumber.open(io.BytesIO(file.read())) as pdf:
         text = ""
         for page in pdf.pages:
             text += page.extract_text()
+        
 
-    key = ["python", "sql", "communication", "git", "problem solving"]
-
+    key = role_keywords.get(role, role_keywords["general"])
     if jd_text:
         jd_words = [word.strip() for word in jd_text.lower().split() if len(word) > 4]
         key = list(set(key + jd_words))

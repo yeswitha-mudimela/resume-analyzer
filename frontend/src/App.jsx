@@ -13,6 +13,7 @@ export default function App() {
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [role, setRole] = useState("general")
 
   const handleSubmit = async () => {
     if (!file) {
@@ -26,6 +27,7 @@ export default function App() {
     const formData = new FormData()
     formData.append("resume", file)
     formData.append("job_description", jd)
+    formData.append("role", role)
 
     try {
       const response = await axios.post("https://resume-analyzer-unzk.onrender.com/analyze", formData)
@@ -57,6 +59,22 @@ export default function App() {
           />
         </div>
 
+     <div style={{ marginBottom: "16px" }}>
+        <label style={{ fontWeight: "bold", display: "block", marginBottom: "8px" }}>
+         Select Role
+        </label>
+        <select
+         value={role}
+         onChange={(e) => setRole(e.target.value)}
+         style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #ddd" }}
+        >
+        <option value="general">General</option>
+        <option value="frontend developer">Frontend Developer</option>
+        <option value="data analyst">Data Analyst</option>
+        <option value="python developer">Python Developer</option>
+        <option value="machine learning">Machine Learning</option>
+        </select>
+</div>
         <div style={{ marginBottom: "16px" }}>
           <label style={{ fontWeight: "bold", display: "block", marginBottom: "8px" }}>
             Job Description (optional)

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from analyzer import analyser, scorecalculator, suggestor, section_checker
+from analyzer import analyser, scorecalculator, suggestor, section_checker, section_checker_v2
 import pdfplumber
 import io
 
@@ -27,10 +27,16 @@ def analyze():
         jd_words = [word.strip() for word in jd_text.lower().split() if len(word) > 4]
         key = list(set(key + jd_words))
 
-    wordlist = ["skills", "education", "experience", "projects", "summary"]
+    section_aliases = {
+      "summary": ["about me", "objective", "profile"],
+      "experience": ["internships", "work history", "employment"],
+      "skills": ["skills", "technical skills", "competencies"],
+      "education": ["education", "academic background", "qualifications"],
+      "projects": ["projects", "personal projects", "academic projects"]
+    }
 
     keyword_result = analyser(text, key)
-    section_result = analyser(text, wordlist)
+    section_result = section_checker_v2(text, section_aliases)
 
     score = scorecalculator(keyword_result)
     keyword_suggestions = suggestor(keyword_result)

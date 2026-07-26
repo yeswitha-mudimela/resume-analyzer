@@ -28,7 +28,7 @@ export default function App() {
     formData.append("job_description", jd)
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/analyze", formData)
+      const response = await axios.post("https://resume-analyzer-unzk.onrender.com/analyze", formData)
       setResult(response.data)
     } catch (err) {
       setError("Something went wrong. Make sure Flask is running.")

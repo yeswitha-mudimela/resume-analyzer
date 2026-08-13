@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from analyzer import analyser, scorecalculator, suggestor, section_checker, section_checker_v2
+from analyzer import analyser, scorecalculator, suggestor, section_checker, section_checker_v2, formatting_checker
 import pdfplumber
 import io
 
@@ -45,16 +45,16 @@ def analyze():
 
     keyword_result = analyser(text, key)
     section_result = section_checker_v2(text, section_aliases)
-
+    formatting_suggestions = formatting_checker(text)
     score = scorecalculator(keyword_result)
     keyword_suggestions = suggestor(keyword_result)
     section_suggestions = section_checker(section_result)
 
     return jsonify({
-        "score": score,
-        "keyword_suggestions": keyword_suggestions,
-        "section_suggestions": section_suggestions
-    })
-
+    "score": score,
+    "keyword_suggestions": keyword_suggestions,
+    "section_suggestions": section_suggestions,
+    "formatting_suggestions": formatting_suggestions
+     })
 if __name__ == "__main__":
     app.run(debug=True)

@@ -35,3 +35,20 @@ def section_checker(missing_section):
             suggestion = f"you have no {keyword} section. add it"
          suggestions.append(suggestion)
    return suggestions
+
+def formatting_checker(text):
+    suggestions = []
+    
+    if len(text.split()) < 100:
+        suggestions.append("Your resume has very little readable text. It may be too heavily designed. ATS cannot read it properly.")
+    
+    lines = text.split("\n")
+    long_lines = [line for line in lines if len(line) > 70]
+    if len(long_lines) > 1:
+        suggestions.append("Your resume may have a two-column layout. ATS struggles to read columns — consider switching to a single column format.")
+    
+    symbol_count = text.count("|") + text.count("█") + text.count("•••")
+    if symbol_count > 5:
+        suggestions.append("Your resume contains special symbols that may confuse ATS parsers. Keep formatting simple.")
+    
+    return suggestions

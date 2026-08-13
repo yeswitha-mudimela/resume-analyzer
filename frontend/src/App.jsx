@@ -150,6 +150,16 @@ export default function App() {
             </div>
           )}
 
+          {result.formatting_suggestions.length > 0 && (
+            <div style={{ background: "#f9f9f9", padding: "20px", borderRadius: "12px", marginTop: "16px" }}>
+              <h3 style={{ color: "#8e44ad" }}>Formatting Issues</h3>
+              <ul>
+                {result.formatting_suggestions.map((s, i) => (
+                  <li key={i} style={{ marginBottom: "8px" }}>{s}</li>
+                ))}
+             </ul>
+            </div>
+          )}
           {result.keyword_suggestions.length === 0 && result.section_suggestions.length === 0 && (
             <div style={{ background: "#eafaf1", padding: "20px", borderRadius: "12px", textAlign: "center" }}>
               <p style={{ color: "#2ecc71", fontWeight: "bold", fontSize: "18px" }}>
